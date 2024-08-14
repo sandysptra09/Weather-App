@@ -1,7 +1,10 @@
 import React from 'react'
+import Weather from './Components/Weather'
 
-export default function App() {
+export default function () {
   return (
-    <div>App</div>
+    <div className='app'>
+      <Weather/>
+    </div>
   )
 }
