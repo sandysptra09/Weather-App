@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './Weather.css'
 import search_icon from '../assets/search.png';
+import Swal from 'sweetalert2';
 
 // icons for weather
 import clear_icon from '../assets/clear.png';
@@ -38,7 +39,11 @@ export default function Weather() {
     // create function for search city name
     const search = async (city) => {
         if (city === "") {
-            alert("Enter city name");
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops...',
+                text: 'Please enter a city name!',
+            });
             return;
         }
         try {
@@ -49,7 +54,11 @@ export default function Weather() {
 
             // condition if response not OK
             if (!response.ok) {
-                alert(data.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'City not found',
+                    text: `The city "${city}" could not be found. Please check the spelling and try again.`,
+                });
                 return;
             }
 
@@ -65,7 +74,11 @@ export default function Weather() {
 
         } catch (error) {
             setWeatherData(false);
-            console.error("Error fetching weather data");
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Failed to fetch weather data!',
+            });
             
         }
     }
@@ -78,7 +91,7 @@ export default function Weather() {
         <div className='weather'>
             <div className="search-bar">
                 <input ref={inputRef} type="text" placeholder='Search' />
-                <img src={search_icon} alt="" onClick={() => search(inputRef.current.value)} />
+                <img src={search_icon} alt="Current weather icon" onClick={() => search(inputRef.current.value)} />
             </div>
             {weatherData ?
                 <>
